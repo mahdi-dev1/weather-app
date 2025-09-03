@@ -349,3 +349,21 @@ body {
         scroll-behavior: auto;
     }
 }
+
+/* Spinner */
+.spinner {
+    display: none;
+    width: 24px;
+    height: 24px;
+    border: 3px solid #ccc;
+    border-top-color: #333;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

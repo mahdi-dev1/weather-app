@@ -233,21 +233,28 @@
     }
 
     async function updateByCoords(lat, lon, label = '') {
+        showSpinner();
         try {
             setStatus('Fetching weather… ⛅');
             loadingPanels();
+
             const data = await fetchWeather(lat, lon);
+
             clearPanelsLoading();
             renderCurrent(data, label);
             renderHourly(data);
             renderDaily(data);
+
             setStatus('Ready ✅');
         } catch (err) {
             clearPanelsLoading();
             console.error(err);
             setStatus('Something went wrong fetching weather. Please try again. ❌', 'error');
+        } finally {
+            hideSpinner();
         }
     }
+
 
     async function updateByCity(name) {
         try {
@@ -388,5 +395,15 @@
         }
     });
 
+    // Spinner
+    const spinner = document.getElementById("loading-spinner");
+
+    function showSpinner() {
+        spinner.style.display = "block";
+    }
+
+    function hideSpinner() {
+        spinner.style.display = "none";
+    }
 })();
 
