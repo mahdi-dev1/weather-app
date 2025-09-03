@@ -335,4 +335,58 @@
     }
 
     document.addEventListener('DOMContentLoaded', initStart);
+
+    // ---- Auto-Suggestions ----
+    const searchInput = document.getElementById("search-input");
+    const form = document.getElementById("search-form");
+
+    // Create container for suggestions
+    const suggestionsBox = document.createElement("div");
+    suggestionsBox.id = "suggestions";
+    searchInput.parentNode.appendChild(suggestionsBox);
+
+    // Fetch suggestions from Open-Meteo API
+    async function fetchCities(query) {
+        const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=5&language=en&format=json`;
+        const res = await fetch(url);
+        if (!res.ok) return [];
+        const data = await res.json();
+        return data.results || [];
+    }
+
+    // Show suggestions and handle click
+    searchInput.addEventListener("input", async () => {
+        const query = searchInput.value.trim();
+        suggestionsBox.innerHTML = "";
+
+        if (query.length < 2) return; // wait until 2+ chars
+
+        const cities = await fetchCities(query);
+
+        cities.forEach(city => {
+            const option = document.createElement("div");
+            option.textContent = `${city.name}, ${city.country} ${city.admin1 ? "– " + city.admin1 : ""}`;
+            option.dataset.lat = city.latitude;
+            option.dataset.lon = city.longitude;
+            option.dataset.label = `${city.name}${city.country ? ", " + city.country : ""}`;
+
+            // When clicking a suggestion → fetch weather
+            option.addEventListener("click", () => {
+                searchInput.value = option.dataset.label;
+                suggestionsBox.innerHTML = "";
+                updateByCoords(option.dataset.lat, option.dataset.lon, option.dataset.label);
+            });
+
+            suggestionsBox.appendChild(option);
+        });
+    });
+
+    // Hide suggestions when clicking outside
+    document.addEventListener("click", (e) => {
+        if (!form.contains(e.target)) {
+            suggestionsBox.innerHTML = "";
+        }
+    });
+
 })();
+

@@ -164,6 +164,40 @@ body {
     min-height: 1em;
 }
 
+/* Suggestions dropdown */
+#search-form {
+    position: relative;
+}
+
+#suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-top: 4px;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Each suggestion */
+#suggestions div {
+    padding: 10px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+/* Hover effect */
+#suggestions div:hover {
+    background: #f0f0f0;
+}
+
+
 /* ---------- Panels / Cards ---------- */
 .panel {
     background: color-mix(in srgb, var(--card) 92%, transparent);
