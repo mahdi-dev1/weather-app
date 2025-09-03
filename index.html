@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="auto">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SkyNow • Weather</title>
+
+    <!-- Color scheme hints -->
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#0ea5e9" />
+
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="preconnect" href="https://api.open-meteo.com" />
+    <link rel="preconnect" href="https://geocoding-api.open-meteo.com" />
+</head>
+
+<body>
+    <header class="app-header container">
+        <div class="brand">
+            <span class="logo-emoji">🌤️</span>
+            <h1 class="logo">SkyNow</h1>
+        </div>
+
+        <div class="controls">
+            <button id="unit-toggle" class="chip" aria-pressed="false" title="Toggle units">
+                °C / °F
+            </button>
+            <button id="theme-toggle" class="chip" aria-pressed="false" title="Toggle dark mode">
+                🌙 / ☀️
+            </button>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Search / location -->
+        <section class="search-bar">
+            <form id="search-form" role="search" aria-label="Search city">
+                <input id="search-input" name="q" type="search" inputmode="search"
+                    placeholder="Search city (e.g., Cairo, Berlin)…" autocomplete="off" aria-label="City name"
+                    required />
+                <button type="submit" class="btn">Search</button>
+                <button type="button" id="geo-btn" class="btn btn-ghost" title="Use my location">📍</button>
+            </form>
+            <p id="status" class="status" role="status" aria-live="polite"></p>
+        </section>
+
+        <!-- Current weather -->
+        <section class="panel" aria-labelledby="current-title">
+            <h2 id="current-title">Now</h2>
+            <div id="current" class="current grid-2">
+                <!-- Filled by JS -->
+            </div>
+        </section>
+
+        <!-- Hourly forecast -->
+        <section class="panel" aria-labelledby="hourly-title">
+            <h2 id="hourly-title">Next 12 hours</h2>
+            <div id="hourly" class="hourly scroller">
+                <!-- Filled by JS -->
+            </div>
+        </section>
+
+        <!-- Daily forecast -->
+        <section class="panel" aria-labelledby="daily-title">
+            <h2 id="daily-title">7-Day forecast</h2>
+            <div id="daily" class="daily grid-7">
+                <!-- Filled by JS -->
+            </div>
+        </section>
+    </main>
+
+    <footer class="container footer">
+        <small>
+            Data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>.
+        </small>
+    </footer>
+
+    <script defer src="./js/script.js"></script>
+</body>
+
+</html>

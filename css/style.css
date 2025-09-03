@@ -1,0 +1,317 @@
+/* ---------- Reset / base ---------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #0b1120;
+    --bg-elev: #111827;
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+    --card: #0f172a;
+    --border: #334155;
+    --brand: #0ea5e9;
+    /* sky-500 */
+    --ok: #22c55e;
+    --warn: #f59e0b;
+    --danger: #ef4444;
+
+    --radius: 16px;
+    --shadow: 0 10px 30px rgba(0, 0, 0, .25);
+    --maxw: 1100px;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --bg: #f8fafc;
+        --bg-elev: #ffffff;
+        --text: #0f172a;
+        --muted: #475569;
+        --card: #ffffff;
+        --border: #e2e8f0;
+    }
+}
+
+/* Theme override via data-theme on <html> */
+html[data-theme="dark"] {
+    --bg: #0b1120;
+    --bg-elev: #111827;
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+    --card: #0f172a;
+    --border: #334155;
+}
+
+html[data-theme="light"] {
+    --bg: #f8fafc;
+    --bg-elev: #ffffff;
+    --text: #0f172a;
+    --muted: #475569;
+    --card: #ffffff;
+    --border: #e2e8f0;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+    color: var(--text);
+    background: radial-gradient(1200px 600px at 50% -10%, rgba(14, 165, 233, .15), transparent 60%), var(--bg);
+    line-height: 1.4;
+}
+
+/* ---------- Layout ---------- */
+.container {
+    width: min(100% - 32px, var(--maxw));
+    margin-inline: auto;
+}
+
+.app-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 0 8px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo {
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: .2px;
+}
+
+.logo-emoji {
+    font-size: 1.5rem;
+}
+
+.controls {
+    display: flex;
+    gap: 8px;
+}
+
+/* ---------- Chips / Buttons ---------- */
+.chip,
+.btn {
+    appearance: none;
+    border: 1px solid var(--border);
+    background: var(--bg-elev);
+    color: var(--text);
+    padding: 8px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: transform .08s ease, background .2s ease, border-color .2s ease;
+}
+
+.btn {
+    border-radius: 10px;
+}
+
+.btn:hover,
+.chip:hover {
+    transform: translateY(-1px);
+}
+
+.btn:active,
+.chip:active {
+    transform: translateY(0);
+}
+
+.btn-ghost {
+    background: transparent;
+    border-style: dashed;
+}
+
+/* ---------- Search ---------- */
+.search-bar {
+    margin: 8px 0 16px;
+}
+
+#search-form {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 8px;
+}
+
+#search-input {
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    outline: none;
+}
+
+#search-input:focus {
+    border-color: var(--brand);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand) 20%, transparent);
+}
+
+.status {
+    margin-top: 6px;
+    color: var(--muted);
+    min-height: 1em;
+}
+
+/* ---------- Panels / Cards ---------- */
+.panel {
+    background: color-mix(in srgb, var(--card) 92%, transparent);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin: 16px 0;
+    box-shadow: var(--shadow);
+}
+
+.panel>h2 {
+    margin: 4px 2px 12px;
+    font-size: 1.1rem;
+    color: var(--muted);
+}
+
+/* Grids */
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 16px;
+}
+
+.grid-7 {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+}
+
+@media (max-width: 900px) {
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .grid-7 {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 520px) {
+    .grid-7 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Current card */
+.current .card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+    align-items: center;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+}
+
+.current .big {
+    font-size: 3rem;
+    line-height: 1;
+}
+
+.kv {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 8px 16px;
+    color: var(--muted);
+}
+
+.kv b {
+    color: var(--text);
+}
+
+/* Hourly scroller */
+.scroller {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 140px;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    scroll-snap-type: x proximity;
+}
+
+.scroller .tile {
+    scroll-snap-align: start;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px;
+    text-align: center;
+    box-shadow: var(--shadow);
+}
+
+.tile .em {
+    font-size: 1.6rem;
+}
+
+/* Daily tiles */
+.daily .tile {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px;
+    text-align: center;
+    box-shadow: var(--shadow);
+}
+
+/* Footer */
+.footer {
+    padding: 20px 0 50px;
+    color: var(--muted);
+}
+
+/* ---------- Utilities ---------- */
+.hidden {
+    display: none !important;
+}
+
+/* Loading shimmer */
+.loading {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(90deg, var(--card), color-mix(in srgb, var(--card) 60%, white 40%), var(--card));
+    background-size: 200% 100%;
+    animation: shimmer 1.2s infinite;
+    color: transparent !important;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Motion friendly */
+@media (prefers-reduced-motion: reduce) {
+
+    .btn,
+    .chip {
+        transition: none;
+    }
+
+    .scroller {
+        scroll-behavior: auto;
+    }
+}
