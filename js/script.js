@@ -33,6 +33,8 @@
         set lastCity(v) {
             localStorage.setItem('lastCity', v);
         },
+        currentCity: '',
+        currentCoords: null
     };
 
 
@@ -234,6 +236,8 @@
 
     async function updateByCoords(lat, lon, label = '') {
         showSpinner();
+        STORE.currentCoords = { lat, lon };
+        STORE.currentCity = label;
         try {
             setStatus('Fetching weather… ⛅');
             loadingPanels();
@@ -257,6 +261,9 @@
 
 
     async function updateByCity(name) {
+        STORE.currentCity = city;
+        STORE.currentCoords = null;
+        STORE.lastCity = city;
         try {
             setStatus(`Searching “${name}”… 🔎`);
             loadingPanels();
@@ -301,21 +308,18 @@
         applyTheme();
     });
 
-
     els.unitToggle.addEventListener('click', () => {
         STORE.units = isMetric() ? 'imperial' : 'metric';
         els.unitToggle.setAttribute('aria-pressed', STORE.units === 'imperial' ? 'true' : 'false');
-        // Re-render last search/location quickly by triggering the same fetch again:
-        const last = STORE.lastCity;
-        if (last) {
-            updateByCity(last);
+
+        // Re-render based on the *current* displayed location
+        if (STORE.currentCoords) {
+            updateByCoords(STORE.currentCoords.lat, STORE.currentCoords.lon, STORE.currentCity);
+        } else if (STORE.currentCity) {
+            updateByCity(STORE.currentCity);
         } else {
-            // No last city—try geolocate silently (may fail if denied)
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (pos) => updateByCoords(pos.coords.latitude, pos.coords.longitude, 'Your location')
-                );
-            }
+            // fallback if no city/coords
+            setStatus('Tip: search for a city to begin. 🔍');
         }
     });
 
@@ -424,6 +428,11 @@
     function hideSpinner() {
         spinner.style.display = "none";
     }
+
+    // To reload when clicking the logo
+    document.querySelector(".brand").addEventListener("click", () => {
+        location.reload();
+    });
 
 })();
 

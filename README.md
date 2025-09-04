@@ -1,5 +1,5 @@
 ## SkyNow Weather App
- A responsive weather app website showing my abilites to connect with Open-Meteo API - and other APIs in other projects if needed - using JS.
+ A responsive weather app demonstrating my ability to integrate with Open-Meteo API - and any other APIs if needed in future projects - using vanilla JS.
 
 ## Features
 - Auto-detect location first (Geolocation API), fallback to Last City, then Cairo
