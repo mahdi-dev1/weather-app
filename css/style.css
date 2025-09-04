@@ -310,7 +310,9 @@ body {
 .footer {
     padding: 20px 0 50px;
     color: var(--muted);
+    text-align: center;
 }
+
 
 /* ---------- Utilities ---------- */
 .hidden {

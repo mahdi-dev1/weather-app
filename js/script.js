@@ -328,18 +328,37 @@
 
     async function initStart() {
         initTheme();
-        // If there's a last city, load it; else try to use geolocation
-        if (STORE.lastCity) {
-            updateByCity(STORE.lastCity);
-        } else if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (pos) => updateByCoords(pos.coords.latitude, pos.coords.longitude, 'Your location'),
-                () => setStatus('Tip: search for a city to begin. 🔍')
-            );
-        } else {
-            setStatus('Tip: search for a city to begin. 🔍');
+
+        try {
+            if ("geolocation" in navigator) {
+                // Try to get user’s live location first
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => {
+                        const { latitude, longitude } = pos.coords;
+                        updateByCoords(latitude, longitude, "Your location");
+                    },
+                    () => {
+                        // If user denies or error → load last city or fallback to Cairo
+                        if (STORE.lastCity) {
+                            updateByCity(STORE.lastCity);
+                        } else {
+                            updateByCoords(30.0444, 31.2357, "Cairo");
+                        }
+                    }
+                );
+            } else if (STORE.lastCity) {
+                // If geolocation not supported, try last city
+                updateByCity(STORE.lastCity);
+            } else {
+                // Final fallback → Cairo
+                updateByCoords(30.0444, 31.2357, "Cairo");
+            }
+        } catch (err) {
+            console.error("Init error:", err);
+            setStatus("Something went wrong. Please try searching manually. ⚠️");
         }
     }
+
 
     document.addEventListener('DOMContentLoaded', initStart);
 
@@ -405,5 +424,6 @@
     function hideSpinner() {
         spinner.style.display = "none";
     }
+
 })();
 
